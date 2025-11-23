@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
@@ -17,8 +19,13 @@ public class ProductController {
        final ProductService service;
         @PostMapping("/add")
         @ResponseStatus(HttpStatus.CREATED)
-        public void addProduct( ProductDto product) {
+        public void addProduct( @RequestBody ProductDto product) {
             service.addProduct(product);
 
         }
+
+    @GetMapping("/get-all")
+    public List<ProductDto> getAll(){
+        return service.getAll();
+    }
 }

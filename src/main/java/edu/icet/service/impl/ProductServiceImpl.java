@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -15,6 +18,19 @@ public class ProductServiceImpl implements ProductService {
      ModelMapper mapper = new ModelMapper();
     @Override
     public void addProduct(ProductDto product) {
-repository.save(mapper.map(product, Product.class));
+    repository.save(mapper.map(product, Product.class));
+    }
+
+    @Override
+    public List<ProductDto> getAll() {
+
+        List<ProductDto> productList = new ArrayList<>();
+        List<Product> all = repository.findAll();
+
+        all.forEach(product -> {
+            productList.add(mapper.map(product, ProductDto.class));
+        });
+
+        return productList;
     }
 }
